@@ -43,3 +43,20 @@ type Company struct {
 	CatchPhrase string `json:"catchPhrase"`
 	Bs          string `json:"bs"`
 }
+
+type PushUsers []PushUser
+
+func UnmarshalPushUsers(data []byte) (PushUsers, error) {
+	var r PushUsers
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *PushUsers) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+
+type PushUser struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}

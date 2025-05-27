@@ -31,7 +31,7 @@ func NewAPIFetchUsersClientJsonPlaceholderImpl(url string, attempts int, httpCli
 }
 
 type APIPushUsersClient interface {
-	PushUsers(ctx context.Context, users model.Users, url string) error
+	PushUsers(ctx context.Context, users model.PushUsers, url string) error
 }
 
 type APIPushUsersClientJsonPlaceholderImpl struct {
@@ -48,7 +48,6 @@ func NewAPIPushUsersClientJsonPlaceholderImpl(url string, attempts int, httpClie
 	}
 }
 func (c *APIFetchUsersClientJsonPlaceholderImpl) FetchUsers(ctx context.Context, url string) (model.Users, error) {
-
 	var users model.Users
 	err := Retry(c.Attempts, time.Second, func() error {
 		req, _ := http.NewRequestWithContext(ctx, "GET", url, nil)
@@ -83,7 +82,7 @@ func (c *APIFetchUsersClientJsonPlaceholderImpl) FetchUsers(ctx context.Context,
 	})
 	return users, err
 }
-func (c *APIPushUsersClientJsonPlaceholderImpl) PushUsers(ctx context.Context, users model.Users, url string) error {
+func (c *APIPushUsersClientJsonPlaceholderImpl) PushUsers(ctx context.Context, users model.PushUsers, url string) error {
 	jsonData, err := users.Marshal()
 	if err != nil {
 		return fmt.Errorf("failed to marshal users: %w", err)

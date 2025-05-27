@@ -19,20 +19,20 @@ func TestDispatcher(t *testing.T) {
 		Suffix:   "@example.com",
 	}
 
-	users := model.Users{
-		model.User{
+	users := model.PushUsers{
+		model.PushUser{
 			Email: "example@mail.com",
 			Name:  "Example",
 		},
-		model.User{
+		model.PushUser{
 			Email: "example2@example.com",
 			Name:  "Example2",
 		},
-		model.User{
+		model.PushUser{
 			Email: "example3@example.com",
 			Name:  "Example3",
 		},
-		model.User{
+		model.PushUser{
 			Email: "example4@gmail.com",
 			Name:  "Example4",
 		},

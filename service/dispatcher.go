@@ -11,7 +11,7 @@ import (
 )
 
 type Dispatcher interface {
-	Dispatch(ctx context.Context) (model.Users, error)
+	Dispatch(ctx context.Context) (model.PushUsers, error)
 }
 
 // Config holds the configuration for the Dispatcher.
@@ -29,7 +29,7 @@ type DispatcherImpl struct {
 	DispatcherConfig Config
 }
 
-func (d *DispatcherImpl) Dispatch(ctx context.Context) (model.Users, error) {
+func (d *DispatcherImpl) Dispatch(ctx context.Context) (model.PushUsers, error) {
 	users, err := d.FetchClient.FetchUsers(ctx, d.DispatcherConfig.FetchURL)
 	if err != nil {
 		slog.Error("Failed to fetch users", "error", err)
@@ -51,14 +51,19 @@ func (d *DispatcherImpl) Dispatch(ctx context.Context) (model.Users, error) {
 	return filteredUsers, nil
 }
 
-func FilterUsers(users []model.User, suffix string) []model.User {
-	var bizUsers []model.User
+func FilterUsers(users []model.User, suffix string) model.PushUsers {
+	var pushUsers model.PushUsers
 	for _, user := range users {
 		if strings.HasSuffix(user.Email, suffix) {
-			bizUsers = append(bizUsers, user)
+			pushUsers = append(pushUsers, model.PushUser{
+				Email: user.Email,
+				Name:  user.Name,
+			})
+		} else {
+			slog.Info("User does not match suffix", "email", user.Email)
 		}
 	}
-	return bizUsers
+	return pushUsers
 }
 
 // NewDispatcher creates a new Dispatcher instance with the provided clients and configuration.

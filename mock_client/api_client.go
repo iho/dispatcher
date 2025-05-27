@@ -81,7 +81,7 @@ func (m *MockAPIPushUsersClient) EXPECT() *MockAPIPushUsersClientMockRecorder {
 }
 
 // PushUsers mocks base method.
-func (m *MockAPIPushUsersClient) PushUsers(ctx context.Context, users model.Users, url string) error {
+func (m *MockAPIPushUsersClient) PushUsers(ctx context.Context, users model.PushUsers, url string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PushUsers", ctx, users, url)
 	ret0, _ := ret[0].(error)
